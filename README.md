@@ -21,6 +21,7 @@ The AI-Powered Web/App Game Generator allows users to simply type a game idea (e
 - ✔ Works with any user prompt (Car game, Snake, Shooter, etc.)
 
 **📂 Project Structure**
+
 <img width="626" height="368" alt="Screenshot 2025-11-26 235723" src="https://github.com/user-attachments/assets/19a6bbfd-88d2-40c5-a3e4-c58f5f15ef2d" />
 
 **⚙️ How It Works**
