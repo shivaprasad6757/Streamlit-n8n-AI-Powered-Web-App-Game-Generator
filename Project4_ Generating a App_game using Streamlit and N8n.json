@@ -1,0 +1,134 @@
+{
+  "name": "Project4: Generating a App/game using Streamlit and N8n",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e12cf07c-abac-46cb-8bf7-e98bafe651c2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -448,
+        -32
+      ],
+      "id": "fef42421-61ae-4ecf-b75f-6b832e9e6647",
+      "name": "Webhook",
+      "webhookId": "e12cf07c-abac-46cb-8bf7-e98bafe651c2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Create the following 2D game using pygame. \nThe game must be fully self-contained with no external assets or files. \nDraw everything using rectangles, circles, polygons, or shapes created in code. \nInclude a full game loop, proper controls, collision detection, scoring, and game over logic. \nOutput ONLY the complete executable Python script and nothing else.\n\nGame idea: {{ $json.body.prompt }}",
+        "options": {
+          "systemMessage": "=You generate complete, fully runnable Python scripts for 2D games using pygame.\n\nFollow the USER’S prompt exactly.\nCreate the exact 2D game the user describes.\nDo not replace the user’s game idea or create your own.\n\nRULES:\n1. Output ONLY raw Python code. No explanations, no markdown, no comments, no text around the code.\n\n2. The game must be fully self-contained:\n   - No external files or assets\n   - No images, sounds, or file loading\n   - All visuals must be drawn using rectangles, circles, polygons, or procedural shapes\n\n3. The script must:\n   - Include all necessary imports\n   - Contain a full game loop\n   - Run immediately after saving as app_code.py\n   - Have no missing variables or undefined names\n   - Have consistent variable naming\n\n4. Never invent new gameplay mechanics not mentioned by the user.\n   Only generate the game EXACTLY as the user describes.\n\nYour only output is the complete executable Python script for the requested 2D pygame game.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        -240,
+        -32
+      ],
+      "id": "9b6cc2ed-8ec8-464a-b383-fae0fde94054",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        160
+      ],
+      "id": "900da30e-9e52-439e-80ef-a8c305fe3c94",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GojH6Eo6PGAPHApj",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        80,
+        -32
+      ],
+      "id": "58dc9475-b790-4cd7-8a16-aa659a1016ac",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "content": "## AI-POWERED-WEB/APP GAME GENERATOR WORKFLOW",
+        "height": 96,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -352,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "526c72f4-9ac7-4560-aa96-d971acbb20e1",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "43cce6d1-142e-4abc-8905-1997ee4b7a8a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "03ff1b29d61cc9410e253fe87a1df655a58a75c624081f830e7e204d9e0e18e6"
+  },
+  "id": "1ZpdnrGA8ysLmpel",
+  "tags": []
+}
